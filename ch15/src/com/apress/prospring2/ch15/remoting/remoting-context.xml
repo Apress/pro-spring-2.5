@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <bean id="helloWorldService" class="com.apress.prospring2.ch15.remoting.SimpleHelloWorld"/>
+    <bean id="messageService" class="com.apress.prospring2.ch15.remoting.http.SimpleMessageService"/>
+     <bean id="jaxWsHelloWorld" class="com.apress.prospring2.ch15.remoting.jaxws.JaxWsHelloWorld" >
+         <property name="helloWorld" ref="helloWorldService"/>
+
+             </bean>
+    <!--
+    <bean class="org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter">
+        <property name="baseAddress" value="http://localhost:9999/"/>
+    </bean>
+
+    <bean id="helloWorldServiceEndpoint" class="com.apress.prospring2.ch15.remoting.jaxws.JaxWsHelloWorld" />
+    -->
+</beans>

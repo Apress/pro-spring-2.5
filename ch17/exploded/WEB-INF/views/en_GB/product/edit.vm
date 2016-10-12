@@ -1,0 +1,23 @@
+<form action="edit.html" method="post">
+<input type="hidden" name="id" value="${product.id}">
+<table>
+	<tr>
+		<td>Name</td>
+		<td>#springBind("product.name")
+				<input name="name" value="$!status.value">
+				<span class="error">$status.errorMessage</span>
+		</td>
+	</tr>
+	<tr>
+		<td>Expiration Date</td>
+		<td>#springBind("product.expirationDate")
+				<input name="expirationDate" value="$!status.value">
+				<span class="error">$status.errorMessage</span>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit"></td>
+	</tr>
+</table>
+</form>

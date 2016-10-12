@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <bean id="transactionManager" class="com.apress.prospring2.ch07.motivation.NoopPlatformTransactionManager"/>
+
+    <util:constant id="X" static-field="java.lang.Integer.MAX_VALUE"/>
+
+    <util:list id="Y" list-class="java.util.ArrayList">
+        <value>value1</value>
+        <ref bean="X"/>
+    </util:list>
+
+    <util:list id="greetingsList">
+        <value>Hello, world</value>
+        <value>How are you doing today?</value>
+    </util:list>
+
+    <util:map id="Z" map-class="java.util.HashMap">
+        <entry key="x" value="y"/>
+        <entry key="y"><ref bean="X"/></entry>
+    </util:map>
+
+    <util:properties id="P" location="classpath:com/apress/prospring2/ch07/simple/Main.properties"/>
+
+    <bean id="simple" class="com.apress.prospring2.ch07.simple.SimpleBean"/>
+
+    <util:property-path id="Q" path="simple.name"/>
+
+    <util:set id="S" set-class="java.util.HashSet">
+        <value>foo</value>
+        <ref bean="X"/>
+    </util:set>
+
+</beans>

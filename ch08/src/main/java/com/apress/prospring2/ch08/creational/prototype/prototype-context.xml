@@ -1,0 +1,11 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="prototypeClient"
+          class="com.apress.prospring2.ch08.creational.prototype.SpringPrototypeClient">
+        <property name="message1" ref="message"/>
+        <property name="message2" ref="message"/>
+    </bean>
+
+    <bean id="message" class="com.apress.prospring2.ch08.creational.prototype.EmailMessage" singleton="false"/>
+</beans>

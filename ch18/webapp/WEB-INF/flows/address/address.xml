@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+    
+    <secured attributes="ROLE_USER" match="any"/>
+       
+    <var name="address" class="com.apress.prospring2.ch18.sample.Address" />
+          
+    <view-state id="start" view="address/shippingAddress" model="address">
+      <transition on="admin" to="admin" bind="false">
+        <secured attributes="ROLE_ADMIN"/>
+      </transition>
+      <transition on="next" to="confirm" />
+    </view-state>
+ 
+    <view-state id="confirm" view="address/showAddress" />
+    
+    <view-state id="admin" view="address/admin" />
+        
+</flow>

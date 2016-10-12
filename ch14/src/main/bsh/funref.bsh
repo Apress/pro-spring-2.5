@@ -1,0 +1,11 @@
+demo() {
+    int value = 100;
+    main() {
+        super.value = 200;
+    }
+    return this;
+}
+
+demoInstance = demo();
+demoInstance.main();
+print(demoInstance.value);

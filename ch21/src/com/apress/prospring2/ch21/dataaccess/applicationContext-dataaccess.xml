@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/prospring2/ch22"/>
+    </bean>
+    <!--
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+            <value>oracle.jdbc.OracleDriver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:oracle:thin:@oracle.devcake.co.uk:1521:INTL</value>
+        </property>
+        <property name="username">
+            <value>PROSPRING</value>
+        </property>
+        <property name="password">
+            <value>x******6</value>
+        </property>
+    </bean>  -->
+    <bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mappingLocations">
+            <list>
+                <value>classpath*:/com/apress/prospring2/ch22/dataaccess/hibernate/*.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="myTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hibernateSessionFactory"/>
+        <property name="nestedTransactionAllowed" value="false"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="hibernateDaoSupport" abstract="true"
+          class="org.springframework.orm.hibernate3.support.HibernateDaoSupport">
+        <property name="sessionFactory" ref="hibernateSessionFactory"/>
+    </bean>
+    <bean id="userDao" class="com.apress.prospring2.ch21.dataaccess.hibernate.HibernateUserDao"
+          parent="hibernateDaoSupport"/>
+
+</beans>

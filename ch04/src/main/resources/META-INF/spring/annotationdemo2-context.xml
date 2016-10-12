@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.apress.prospring2.ch04.annotations">
+        <context:include-filter type="annotation" expression="com.apress.prospring2.ch04.annotations.Magic"/>
+        <context:include-filter type="assignable" expression="com.apress.prospring2.ch04.annotations.ComponentMarker"/>
+        <context:include-filter type="aspectj" expression="* void com.apress..annotations.*Service*(..)"/>
+    </context:component-scan>
+
+</beans>

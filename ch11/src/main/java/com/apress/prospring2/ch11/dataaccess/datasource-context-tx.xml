@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/prospring2/ch11"/>
+	</bean>
+    <bean id="nativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.SimpleNativeJdbcExtractor"/>
+    <bean id="lobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler">
+        <property name="nativeJdbcExtractor" ref="nativeJdbcExtractor"/>
+    </bean>
+
+	<bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+        <property name="lobHandler" ref="lobHandler"/>
+        <property name="mappingLocations">
+			<list>
+				<value>classpath*:/com/apress/prospring2/ch11/dataaccess/hibernate/*.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</prop>
+                <prop key="show_sql">true</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
+            </props>
+		</property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="hibernateSessionFactory"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>    
+
+    <bean id="hibernateDaoSupport" abstract="true" class="org.springframework.orm.hibernate3.support.HibernateDaoSupport">
+        <property name="sessionFactory" ref="hibernateSessionFactory"/>
+    </bean>
+    <bean id="logEntryDao" class="com.apress.prospring2.ch11.dataaccess.hibernate.HibernateLogEntryDao" parent="hibernateDaoSupport"/>
+    <bean id="invoiceDao" class="com.apress.prospring2.ch11.dataaccess.hibernate.HibernateInvoiceDao" parent="hibernateDaoSupport"/>
+    <bean id="supplierDao" class="com.apress.prospring2.ch11.dataaccess.hibernate.HibernateSupplierDao" parent="hibernateDaoSupport"/>
+    <bean id="lobTestDao" class="com.apress.prospring2.ch11.dataaccess.hibernate.HibernateLobTestDao" parent="hibernateDaoSupport"/>
+
+</beans>

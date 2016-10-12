@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+  <view-state id="list" view="shop/list">
+    <on-render>
+      <evaluate expression="bookShopService.findAllBooks()" result="flowScope.books" />
+    </on-render>
+    
+    <transition on="all" to="list" />
+    <transition on="children">
+        <evaluate expression="bookShopService.findAllByCategory(currentEvent)" result="viewScope.books" />
+        <render fragments="bookTable" />
+    </transition>
+     <transition on="computer">
+        <evaluate expression="bookShopService.findAllByCategory(currentEvent)" result="viewScope.books" />
+        <render fragments="bookList" />
+    </transition>
+    
+    <transition on="view" to="viewBook">
+        <set name="flowScope.bookId" value="requestParameters.bookId" type="long" />
+        <evaluate expression="bookShopService.findBookById(bookId)" result="flowScope.book" 
+        result-type="com.apress.prospring2.ch18.sample.Book"/>
+    </transition>
+  </view-state>       
+       
+  <view-state id="viewBook" view="shop/view">
+    <transition on="buy" to="startCheckout">
+    </transition>    
+  </view-state>
+
+  <subflow-state id="startCheckout" subflow="checkout">
+    <input name="book" />
+    <transition on="success" to="orderConfirmed" />
+  </subflow-state>
+   
+  <end-state id="orderConfirmed" />
+  
+  <global-transitions>
+    <transition on="shop" to="list" />
+  </global-transitions>
+    
+</flow>

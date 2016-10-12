@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="parent" class="com.apress.prospring2.ch03.inheritance.SimpleBean" abstract="true">
+        <property name="name" value="Jan Machacek"/>
+    </bean>
+
+    <bean id="bean1" class="com.apress.prospring2.ch03.inheritance.SimpleBean" parent="parent">
+        <property name="age" value="28"/>
+    </bean>
+
+    <bean id="bean2" class="com.apress.prospring2.ch03.inheritance.SimpleBean" parent="parent"/>
+
+</beans>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:oscache="http://www.springmodules.org/schema/oscache"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springmodules.org/schema/oscache
+            http://www.springmodules.org/schema/cache/springmodules-oscache.xsd">
+
+    <bean id="cacheKeyGenerator"
+          class="org.springmodules.cache.key.HashCodeCacheKeyGenerator"/>
+    <bean id="cacheManager"
+          class="org.springmodules.cache.provider.oscache.OsCacheManagerFactoryBean">
+    </bean>
+    
+    <bean id="cacheProviderFacade"
+          class="org.springmodules.cache.provider.oscache.OsCacheFacade">
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean>
+
+    <oscache:annotations providerId="cacheProviderFacade">
+        <oscache:cacheKeyGenerator refId="cacheKeyGenerator"/>
+        <oscache:caching id="Invoice" refreshPeriod="86400"/>
+        <oscache:caching id="Supplier" refreshPeriod="86400"/>
+        <oscache:flushing id="Supplier"/>
+        <oscache:flushing id="Invoice"/>
+    </oscache:annotations>
+
+</beans>
+

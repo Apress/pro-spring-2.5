@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- URL to flow mapping rules -->			
+	<bean id="publicUrlMappings" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<value>
+                /helloWorld.html=helloWorldFlowHandler
+                /helloWorldYesNo.html=helloWorldFlowHandler   
+                /helloWorldYesNoPopUp.html=helloWorldFlowHandler    
+			</value>
+		</property>        
+	</bean>
+   
+	<!-- Controls access to the hello world flow 
+        see also chapter 17 'Spring Controllers'
+    -->
+	<bean id="helloWorldFlowHandler" class="com.apress.prospring2.ch18.HelloWorldFlowHandler" />
+
+	<!-- Enables FlowHandlers -->
+	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+		<constructor-arg ref="flowExecutor" />
+	</bean>    
+    
+    <!-- Enables plain Controllers 
+        ch17: If no HandlerAdapters are defined in the DispatcherServlet (== null) 
+        SPring automatically uses this. 
+    -->
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+
+    <bean name="/helloWorld.html" class="org.springframework.webflow.mvc.servlet.FlowHandler">
+    </bean>
+</beans>

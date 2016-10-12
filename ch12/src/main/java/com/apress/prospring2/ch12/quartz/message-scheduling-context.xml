@@ -1,0 +1,26 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="job" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.apress.prospring2.ch12.quartz.MessageJob"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="message" value="This is a message from the Spring configuration file!" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="trigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="job" />
+        <property name="startDelay" value="1000" />
+        <property name="repeatInterval" value="3000" />
+    </bean>
+
+    <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref local="trigger"/>
+            </list>
+        </property>
+    </bean>
+</beans>

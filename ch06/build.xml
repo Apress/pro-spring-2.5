@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project name="ch06" default="all" basedir="."
+        xmlns:aspectj="antlib:org.aspectj">
+
+    <property name="dir.src.main.java" value="./src/main/java"/>
+    <property name="dir.src.main.resources" value="./src/main/resources"/>
+    <property name="dir.module.main.build" value="./target/build-main"/>
+    <property name="dir.lib" value="../../lib"/>
+    <property name="module.jar" value="ch06.jar"/>
+    <path id="module.classpath">
+        <fileset dir="${dir.lib}" includes="**/*.jar"/>
+        <fileset dir="${dir.lib}" includes="**/*/*.jar"/>
+    </path>
+
+    <target name="all">
+        <aspectj:iajc
+            outjar="${module.jar}"
+            sourceRootCopyFilter="**/*.java"
+            source="1.5"
+            target="1.5">
+            <classpath refid="module.classpath"/>
+            <sourceroots>
+                <path location="${dir.src.main.java}/com/apress/prospring2/ch06/services"/>
+                <path location="${dir.src.main.java}/com/apress/prospring2/ch06/aspectj"/>
+                <path location="${dir.src.main.java}/com/apress/prospring2/ch06/common"/>
+                <path location="${dir.src.main.resources}"/>
+            </sourceroots>
+        </aspectj:iajc>
+
+        <java classname="com.apress.prospring2.ch06.aspectj.AspectJDemo1" fork="yes">
+            <classpath>
+                <path refid="module.classpath"/>
+                <pathelement location="${module.jar}"/>
+            </classpath>
+        </java>
+
+    </target>
+</project>

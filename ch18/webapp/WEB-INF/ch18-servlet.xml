@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:webflow="http://www.springframework.org/schema/webflow-config"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/webflow-config
+           http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+
+    <!-- 
+        Spring MVC Integration Configuration
+    -->
+
+    <context:component-scan base-package="com.apress" />
+
+    <!-- URL to flow mapping rules -->
+    <bean id="publicUrlMappings"
+        class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <value>
+                /sampleApp.html=helloWorldFlowHandler
+                /colours.html=coloursHandler
+                /address.html=helloWorldFlowHandler
+            </value>
+        </property>
+        <property name="defaultHandler">
+            <bean
+                class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
+        </property>
+    </bean>
+
+    <!-- Enables FlowHandlers -->
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+        <constructor-arg ref="flowExecutor" />
+    </bean>
+
+    <!-- Enables plain Controllers -->
+    <bean
+        class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+
+    <!-- FlowHandler implementation -->
+    <bean id="sampleAppHandler" class="com.apress.prospring2.ch18.SampleAppHandler" />
+
+    <bean id="coloursHandler" class="com.apress.prospring2.ch18.ColoursHandler"></bean>
+
+    <!-- FlowHandler implementation -->
+    <bean id="helloWorldFlowHandler"
+        class="org.springframework.webflow.mvc.servlet.AbstractFlowHandler" />
+
+    <webflow:flow-executor id="flowExecutor" flow-registry="flowRegistry">
+        <webflow:flow-execution-listeners>
+            <webflow:listener ref="securityFlowExecutionListener" />
+        </webflow:flow-execution-listeners>
+        <webflow:flow-execution-attributes>
+            <webflow:always-redirect-on-pause value="false" />
+        </webflow:flow-execution-attributes>
+    </webflow:flow-executor>
+
+    <webflow:flow-registry id="flowRegistry"
+        flow-builder-services="builderService">
+        <webflow:flow-location-pattern value="/WEB-INF/flows/**/*.xml" />
+    </webflow:flow-registry>
+
+    <webflow:flow-builder-services id="builderService"
+        view-factory-creator="myViewFactoryCreator" />
+
+    <bean id="myViewFactoryCreator"
+        class="org.springframework.webflow.mvc.view.MvcViewFactoryCreator">
+        <property name="viewResolvers" ref="internalJspViewResolver" />
+    </bean>
+
+    <!-- Maps logical view names selected by the url filename controller to .jsp 
+        view templates within the /WEB-INF/views directory -->
+    <bean id="internalJspViewResolver"
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <bean id="bookShopService"
+        class="com.apress.prospring2.ch18.sample.service.DefaultBookShopService" />
+
+    <!-- **************************************************************
+        Configure Spring Security 
+        ************************************************************** -->
+
+    <bean id="securityFlowExecutionListener"
+        class="org.springframework.webflow.security.SecurityFlowExecutionListener">
+    </bean>
+
+    <security:authentication-provider>
+        <security:user-service>
+            <security:user name="admin" password="admin"
+                authorities="ROLE_USER,ROLE_ADMIN" />
+            <security:user name="user" password="user" authorities="ROLE_USER" />
+        </security:user-service>
+    </security:authentication-provider>
+
+    <security:http auto-config="true">
+        <security:intercept-url pattern="/login.html" filters="none" />
+        <security:form-login login-page="/login.html" />
+    </security:http>
+
+</beans>

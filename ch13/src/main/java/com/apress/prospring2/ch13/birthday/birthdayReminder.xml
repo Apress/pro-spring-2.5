@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress ALL -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="scheduledTask" class="com.apress.prospring2.ch12.timer.bday.BirthdayScheduledTask">
+        <property name="date">
+            <value>2007-10-30</value>
+        </property>
+        <property name="fixedRate">
+            <value>true</value>
+        </property>
+        <property name="timerTask">
+            <bean class="com.apress.prospring2.ch13.birthday.ReminderTask">
+                <property name="who">
+                    <value>Ria</value>
+                </property>
+                <property name="mailSender">
+                    <ref local="sender"/>
+                </property>
+                <property name="mailMessage">
+                    <ref local="mailMessage"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host">
+            <value>post.demon.co.uk</value>
+        </property>
+    </bean>
+
+    <bean id="mailMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from">
+            <value>reminders@apress.com</value>
+        </property>
+        <property name="to">
+            <value>anirvanc@cakesolutions.net</value>
+        </property>
+        <property name="subject">
+            <value>Birthday Reminder!!</value>
+        </property>
+    </bean>
+
+    <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
+        <property name="scheduledTimerTasks">
+            <list>
+                <ref local="scheduledTask"/>
+            </list>
+        </property>
+    </bean>
+</beans>

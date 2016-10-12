@@ -1,0 +1,12 @@
+reader for Apress
+
+    event startInvoice
+        "do something";
+        "and something else";
+    end event
+
+    event endInvoice
+        "bye";
+    end event
+
+end reader

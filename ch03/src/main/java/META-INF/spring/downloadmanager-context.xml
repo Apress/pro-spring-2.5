@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="ftpDownloader" class="com.apress.prospring2.ch03.dm.FtpDownloader"/>
+    <bean id="httpDownloader" class="com.apress.prospring2.ch03.dm.HttpDownloader"/>
+    <bean id="sftpDownaloader" class="com.apress.prospring2.ch03.dm.SftpDownloader"/>
+    <bean id="downloadManager" class="com.apress.prospring2.ch03.dm.DownloadManager">
+        <property name="downloaders">
+            <map>
+                <entry key="ftp" value-ref="ftpDownloader"/>
+                <entry key="http" value-ref="httpDownloader"/>
+                <entry key="sftp" value-ref="sftpDownaloader"/>
+            </map>
+        </property>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+
+	Database context applicationContext file. This file has no dependencies.
+
+-->
+
+<beans>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@oracle.devcake.co.uk:1521:INTL"/>
+        <property name="username" value="PROSPRING"/>
+        <property name="password" value="x******6"/>
+
+    </bean>
+
+
+    <!-- SqlMap setup for iBATIS Database Layer -->
+    <bean id="sqlMapClient"
+          class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation">
+            <value>sql-map-config.xml</value>
+        </property>
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+    </bean>
+
+    <bean id="customerDao"
+          class="com.apress.prospring2.ch10.dataaccess.ibatis.SqlMapClientCustomerDao">
+        <property name="sqlMapClient">
+            <ref local="sqlMapClient"/>
+        </property>
+    </bean>
+
+    <bean id="orderDao"
+          class="com.apress.prospring2.ch10.dataaccess.ibatis.SqlMapClientOrderDao">
+        <property name="sqlMapClient">
+            <ref local="sqlMapClient"/>
+        </property>
+    </bean>
+
+</beans>

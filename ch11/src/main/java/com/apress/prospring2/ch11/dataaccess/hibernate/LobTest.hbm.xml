@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="true">
+
+    <class name="com.apress.prospring2.ch11.domain.LobTest" table="t_lob_test">
+        <id name="id" type="long" unsaved-value="null">
+            <generator class="sequence">
+                <param name="sequence">s_lob_test_id</param>
+            </generator>
+        </id>
+        <version name="version" column="version" unsaved-value="null" type="long" />
+        <property name="binaryContent" column="binary_content" not-null="true" lazy="true"
+                   type="org.springframework.orm.hibernate3.support.BlobByteArrayType" />
+        <property name="textContent" column="text_content" not-null="true" lazy="true"
+                type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+        <property name="mimeType" column="mime_type" not-null="true" />
+    </class>
+
+</hibernate-mapping>

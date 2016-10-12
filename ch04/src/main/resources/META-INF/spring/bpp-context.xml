@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="simpleBean" class="com.apress.prospring2.ch04.bpp.SimpleBean"/>
+    <bean id="bpp" class="org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor">
+        <property name="initAnnotationType" value="javax.annotation.PostConstruct"/>
+        <property name="destroyAnnotationType" value="javax.annotation.PreDestroy"/>
+    </bean>
+    <bean id="bpp2" class="com.apress.prospring2.ch04.bpp.TimestampingBeanPostProcessor"/>
+
+</beans>

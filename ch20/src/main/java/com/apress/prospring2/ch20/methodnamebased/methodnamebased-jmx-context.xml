@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="beans">
+            <map>
+                <entry key="bean:name=methodNameBasedMBean" value-ref="springManagedBean" />
+            </map>
+        </property>
+        <property name="assembler" ref="assembler" />
+    </bean>
+
+    <bean id="assembler" class="org.springframework.jmx.export.assembler.MethodNameBasedMBeanInfoAssembler">
+        <property name="managedMethods" value="anotherExposedMethod,exposedMethod,getProperty,setProperty"/>
+	</bean>
+
+    <bean id="springManagedBean" class="com.apress.prospring2.ch20.methodnamebased.SpringBean">
+        <property name="property" value="TEST"/>
+    </bean>
+
+</beans>

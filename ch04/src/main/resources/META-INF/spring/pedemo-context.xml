@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="builtInSample" class="com.apress.prospring2.ch04.pe.PropertyEditorBean">
+        <property name="bytes" value="Hello, World"/>
+        <property name="class" value="java.lang.String"/>
+        <property name="file" value="/tmp"/>
+        <property name="locale" value="en_GB"/>
+        <property name="pattern" value="^(.*)$"/>
+        <property name="properties">
+            <value>
+                a=b
+                c=d
+            </value>
+        </property>
+        <property name="strings" value="Aleksa,Ani,Jessica,Jan"/>
+        <property name="url" value="http://www.cakesolutions.net"/>
+    </bean>
+
+</beans>

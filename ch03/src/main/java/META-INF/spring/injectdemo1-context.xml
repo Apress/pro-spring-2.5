@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="injectSimpleDemo" class="com.apress.prospring2.ch03.beanfactory.InjectSimpleDemo">
+        <property name="name" value="John Smith"/>
+        <property name="age" value="35"/>
+        <property name="height" value="1.79"/>
+        <property name="isProgrammer" value="true"/>
+        <property name="ageInSeconds" value="1103760000"/>
+    </bean>
+
+</beans>

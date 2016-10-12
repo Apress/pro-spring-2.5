@@ -1,0 +1,5 @@
+module RemoteHelloWorld {
+  interface RemoteHelloWorld {
+    string getMessage();
+  };
+};

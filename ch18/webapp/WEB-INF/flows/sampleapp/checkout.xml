@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <var name="order" class="com.apress.prospring2.ch18.sample.Order" />
+    
+    <input name="book" value="flowScope.book" required="true"/>
+
+    <on-start>
+      <set name="order.book" value="book" />
+    </on-start>
+
+    <view-state id="billingaddress" view="checkout/billingAddress">
+        <transition on="Next" to="requiresShippingAddress" bind="true" />
+    </view-state>
+
+    <decision-state id="requiresShippingAddress">
+        <if test="requestParameters.isAlsoShippingAddress" then="payment"
+            else="shippingaddress" />
+    </decision-state>
+
+    <view-state id="shippingaddress" view="checkout/shippingAddress">
+        <transition on="Next" to="payment" />
+    </view-state>
+
+    <view-state id="payment" view="checkout/payment">
+        <transition on="Next" to="success"></transition>
+    </view-state>
+    
+    <end-state id="success"></end-state>
+
+</flow>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="customEditorConfigurer" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="com.apress.prospring2.ch04.pe.Complex">
+                    <bean class="com.apress.prospring2.ch04.pe.ComplexPropertyEditor"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="exampleBean" class="com.apress.prospring2.ch04.pe.CustomEditorDemo">
+        <property name="values">
+            <list>
+                <value>10</value>
+                <value>-10j</value>
+                <value>10+30j</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

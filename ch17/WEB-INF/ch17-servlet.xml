@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+   <!--
+   <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+   <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>    -->
+     
+     <!--    <context:component-scan base-package="com.apress.prospring2.ch17.web"/>    -->
+    <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath">
+            <value>WEB-INF/views/en_GB/</value>
+        </property>
+    </bean>
+
+    <bean id="tilesConfigurer"
+          class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles-layout.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="freemarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath">
+            <value>WEB-INF/views/en_GB/</value>
+        </property>
+    </bean>
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+        <property name="basename" value="views"/>
+    </bean>
+    <bean id="bigBrotherHandlerInterceptor"
+          class="com.apress.prospring2.ch17.web.interceptors.BigBrotherHandlerInterceptor"/>
+    <bean id="plainTextView"
+          class="com.apress.prospring2.ch17.web.views.PlainTextView"/>
+    <bean id="themeResolver"
+          class="org.springframework.web.servlet.theme.FixedThemeResolver">
+        <property name="defaultThemeName">
+            <value>cool</value>
+        </property>
+    </bean> 
+
+    <!--
+    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<property name="defaultErrorView" value="defaultErrorView"/>
+	<property name="exceptionMappings">
+		<props>
+			<prop key="java.lang.NullPointerException">nullPointerErrorView</prop>
+			<prop key="javax.servlet.ServletException">servletErrorView</prop>
+		</props>
+	</property>
+</bean>
+-->
+
+    <bean id="publicUrlMapping"
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <value>
+                /product/index.html=productController
+                /product/view.html=productController
+                /product/edit.html=productFormController
+                /product/report.html=productController
+                /product/image.html=productImageFormController
+                /tile/*.tile=tileController
+                /status.html=statusController
+                /index.html=indexController
+                /exception/*.html=exceptionController
+            </value>
+
+        </property>
+    </bean>
+
+
+    <bean id="exceptionController"
+          class="com.apress.prospring2.ch17.web.exception.ExceptionController">
+        <property name="methodNameResolver" ref="internalPathMethodNameResolver"/>
+    </bean>
+    <bean id="indexController"
+          class="com.apress.prospring2.ch17.web.IndexController">
+        
+    </bean>
+
+
+    <bean id="productController"
+          class="com.apress.prospring2.ch17.web.product.ProductController">
+        <property name="methodNameResolver" ref="internalPathMethodNameResolver"/>
+    </bean>
+
+    <bean id="productMethodNameResolver"
+          class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+        <property name="paramName" value="method"/>
+        <property name="defaultMethodName" value="view"/>
+    </bean>
+    <bean id="internalPathMethodNameResolver"
+          class="org.springframework.web.servlet.mvc.multiaction.InternalPathMethodNameResolver">
+        <property name="suffix" value="Handler"/>
+    </bean>
+
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages"/>
+    </bean>
+
+    <bean id="productValidator"
+          class="com.apress.prospring2.ch17.web.validators.ProductValidator"/>
+
+    <!-- Product -->
+    <bean id="productFormController"
+          class="com.apress.prospring2.ch17.web.product.ProductFormController">
+        <property name="validator" ref="productValidator"/>
+    </bean>
+
+    <bean id="productImageFormController"
+          class="com.apress.prospring2.ch17.web.product.ProductImageFormController">
+
+    </bean>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize">
+            <value>100000</value>
+        </property>
+    </bean>
+    <!-- Status -->
+    <bean id="statusController" class="com.apress.prospring2.ch17.web.StatusController"/>
+
+    <!-- Tile -->
+    <bean id="tileController" class="com.apress.prospring2.ch17.web.tiles.TileController">
+        <property name="methodNameResolver">
+            <ref local="tileMethodNameResolver"/>
+        </property>
+        <property name="menu">
+            
+            <map>
+                <entry key="Pro Spring 2.5" value="http://www.apress.com"/>
+
+                <entry key="Oracle Application Server 10g" value="http://www.apress.com"/>
+
+
+
+            </map>
+        </property>
+    </bean>
+    <bean id="tileMethodNameResolver"
+          class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+        <property name="mappings">
+            <props>
+                <prop key="/tile/status.tile">handleStatus</prop>
+                <prop key="/tile/menu.tile">handleMenu</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>

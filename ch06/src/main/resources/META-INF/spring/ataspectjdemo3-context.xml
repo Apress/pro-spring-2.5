@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="test" class="com.apress.prospring2.ch06.simple.TestBean2">
+        <property name="simpleBean" ref="simple"/>
+    </bean>
+    <bean id="simple" class="com.apress.prospring2.ch06.simple.SimpleBean"/>
+    <aop:config>
+        <aop:advisor advice-ref="tx-advice"
+                     pointcut="com.apress.prospring2.ch06.simple.SystemPointcuts.testBeanExecution()"/>
+    </aop:config>
+
+    <bean id="transactionManager" class="com.apress.prospring2.ch06.simple.NoopTransactionManager"/>
+
+    <tx:advice id="tx-advice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED"/> 
+        </tx:attributes>
+    </tx:advice>
+</beans>

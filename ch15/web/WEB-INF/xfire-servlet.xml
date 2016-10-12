@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+
+    <bean name="/JaxWsHelloWorld" class="org.codehaus.xfire.spring.remoting.XFireExporter">
+        <property name="serviceInterface" value="com.apress.prospring2.ch15.remoting.rmi.RemoteHelloWorld"/>
+        <property name="serviceBean" ref="jaxWsHelloWorld" />
+        <property name="namespace" value="http://localhost:8080/remoting/ws" />
+        <!-- the XFire bean is defined in the xfire.xml file -->
+        <property name="xfire" ref="xfire"/>
+    </bean>
+
+
+
+    </beans>

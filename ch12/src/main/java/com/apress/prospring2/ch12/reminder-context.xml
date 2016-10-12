@@ -1,0 +1,8 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+    <bean id="reminderService" class="com.apress.prospring2.ch12.ReminderService">
+
+    </bean>
+    
+</beans>

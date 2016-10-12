@@ -1,0 +1,25 @@
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.directwebremoting.org/schema/spring-dwr
+			http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+
+	<bean id="dwrService" class="com.apress.prospring2.ch19.service.DefaultDwrService">
+		<dwr:remote javascript="DwrService">
+			<!--<dwr:include method="usernameAvailability"/>-->
+			<dwr:exclude method="confirmPassword"/>
+		</dwr:remote>
+		<property name="userDao" ref="userDao"/>
+	</bean>
+
+	<bean id="userDao" class="com.apress.prospring2.ch19.dataaccess.UserDaoImpl"/>
+
+	<!-- DWR Configuration -->
+	<dwr:configuration />
+
+	<!-- DWR Controller, if using DWRSpringServlet
+	<dwr:controller name="dwrController" debug="true"/>-->
+</beans>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <bean id="helloWorldService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost:9000/HelloWorld" />
+
+        <property name="serviceInterface" value="com.apress.prospring2.ch15.remoting.HelloWorld"/>
+
+    </bean>
+
+    <bean id="helloWorldClient" class="com.apress.prospring2.ch15.remoting.rmi.HelloWorldClient">
+        <property name="helloWorldService" ref="helloWorldService" />
+
+    </bean>
+</beans>

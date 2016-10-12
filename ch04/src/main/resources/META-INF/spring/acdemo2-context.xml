@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="destructiveBean" class="com.apress.prospring2.ch04.lifecycle.DestructiveBeanI">
+        <property name="filePath" value="/tmp/prospring"/>
+    </bean>
+
+
+    <bean id="shutdownHook"
+          lazy-init="false"
+          class="com.apress.prospring2.ch04.interaction.ShutdownHookBean"/>
+
+</beans>

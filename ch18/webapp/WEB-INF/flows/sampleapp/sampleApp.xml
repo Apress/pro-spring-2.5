@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <view-state id="main" view="index">
+        <transition on="admin" to="admin" />
+
+        <transition on="shop" to="enterShop" />
+    </view-state>
+     
+    <subflow-state id="admin" subflow="admin">
+    </subflow-state> 
+    
+    <subflow-state id="enterShop" subflow="enterShop">
+      <transition on="success" to="thankYou" />
+      <transition on-exception="" to="goodbye" />
+    </subflow-state>
+    
+    <end-state id="thankYou" view="index.jsp" />
+    
+    <end-state id="goodbye" view="goodbye.jsp" />
+     
+</flow>

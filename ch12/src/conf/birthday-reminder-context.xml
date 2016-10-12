@@ -1,0 +1,21 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="mum" class="com.apress.prospring2.ch12.timer.bday.BirthdayScheduledTask">
+        <property name="date" value="2005-11-30"/>
+        <property name="fixedRate" value="true"/>
+        <property name="timerTask">
+            <bean class="com.apress.prospring2.ch12.timer.bday.BirthdayReminderTask">
+                <property name="who" value="Mum"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
+        <property name="scheduledTimerTasks">
+            <list>
+                <ref local="mum"/>
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="singleMe" class="java.lang.String" scope="singleton">
+        <constructor-arg type="java.lang.String" value="Singleton -- Jan Machacek"/>
+    </bean>
+
+    <bean id="prototypeMe" class="java.lang.String" scope="prototype">
+        <constructor-arg type="java.lang.String" value="Prototype -- Jan Machacek"/>
+    </bean>
+
+</beans>

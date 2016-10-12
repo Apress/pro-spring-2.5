@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="simple1" class="com.apress.prospring2.ch04.lifecycle.SoutSimpleBean">
+        <property name="person" value="Winston Churchill"/>
+        <property name="value" value="This report, by its very length, defends itself against the risk of being read."/>
+    </bean>
+
+</beans>

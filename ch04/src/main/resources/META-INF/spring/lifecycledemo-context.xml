@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="simple1" class="com.apress.prospring2.ch04.lifecycle.SimpleBean"
+            init-method="init">
+        <property name="age" value="29"/>
+        <property name="name" value="Dr. Jekyll"/>
+    </bean>
+    <bean id="simple2" class="com.apress.prospring2.ch04.lifecycle.SimpleBean"
+            init-method="init">
+        <property name="age" value="29"/>
+    </bean>
+    <bean id="simple3" class="com.apress.prospring2.ch04.lifecycle.SimpleBean"
+            init-method="init">
+        <property name="name" value="Mr. Hyde"/>
+    </bean>
+
+</beans>

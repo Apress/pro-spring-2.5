@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="true">
+
+    <class name="com.apress.prospring2.ch11.domain.Discount" table="t_discount">
+        <id name="id" type="long" unsaved-value="null">
+            <generator class="sequence">
+                <param name="sequence">s_discount_id</param>
+            </generator>
+        </id>
+        <version name="version" column="version" unsaved-value="null" type="long" />
+        <property name="amount" column="amount" not-null="true" />
+        <property name="type" column="type_" not-null="true" />
+        <many-to-one name="invoiceLine" column="invoice_line" class="com.apress.prospring2.ch11.domain.InvoiceLine" not-null="true" />
+    </class>
+
+</hibernate-mapping>

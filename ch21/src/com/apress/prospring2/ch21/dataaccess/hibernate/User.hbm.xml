@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="true">
+
+    <class name="com.apress.prospring2.ch21.domain.User" table="t_user">
+        <id name="id" type="long" unsaved-value="null">
+            <generator class="sequence">
+                <param name="sequence">s_user_id</param>
+            </generator>
+        </id>
+        <property name="username" column="username" not-null="true"/>
+        <property name="fullname" column="fullname" not-null="false"/>
+        <property name="password" column="password" not-null="true"/>
+    </class>
+
+</hibernate-mapping>

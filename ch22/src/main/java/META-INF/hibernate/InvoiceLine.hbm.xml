@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="true">
+
+    <class name="com.apress.prospring2.ch22.domain.InvoiceLine" table="t_invoice_line">
+        <id name="id" type="long" unsaved-value="null">
+            <generator class="sequence">
+                <param name="sequence">s_invoice_line_id</param>
+            </generator>
+        </id>
+        <version name="version" column="version" unsaved-value="null" type="long" />
+        <property name="price" column="price" not-null="true" />
+        <property name="productCode" column="product_code" not-null="true" />
+        <property name="vat" column="vat" not-null="true" />
+        <many-to-one name="invoice" class="com.apress.prospring2.ch22.domain.Invoice" not-null="true"/>
+        <set name="discounts" inverse="true" cascade="all" fetch="subselect">
+            <key column="invoice_line" not-null="true"/>
+            <one-to-many class="com.apress.prospring2.ch22.domain.Discount"/>
+        </set>
+    </class>
+
+</hibernate-mapping>

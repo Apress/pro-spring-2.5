@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress ALL -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="messageSender"
+          class="com.apress.prospring2.ch13.mime.InlineImageMessageSender">
+        <property name="javaMailSender">
+            <ref bean="sender"/>
+        </property>
+        <property name="to">
+            <value>anirvanc@cakesolutions.net</value>
+        </property>
+        <property name="from">
+            <value>mail@apress.com</value>
+        </property>
+        <property name="subject">
+            <value>HTML Mail with Inline Image</value>
+        </property>
+    </bean>
+</beans>

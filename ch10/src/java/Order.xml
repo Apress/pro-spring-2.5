@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <typeAlias type="com.apress.prospring2.ch10.domain.Order" alias="order"/>
+    <typeAlias type="com.apress.prospring2.ch10.domain.OrderLine"
+               alias="orderLine"/>
+
+    <resultMap class="order" id="result">
+        <result property="id" column="Id"/>
+        <result property="customer" column="Customer"/>
+        <result property="orderLines" select="getOrderLinesByOrder"
+                column="Id"/>
+    </resultMap>
+
+    <resultMap class="orderLine" id="resultLine">
+        <result property="id" column="Id"/>
+        <result property="order" column="Order"/>
+        <result property="product" column="Product"/>
+        <result property="price" column="Price"/>
+    </resultMap>
+
+    <select id="getOrderById" resultMap="result" parameterClass="int">
+        select * from T_Order where Id=#value#
+    </select>
+
+    <select id="getOrderLinesByOrder" resultMap="resultLine" parameterClass="int">
+        select * from T_Order_Line where "Order"=#value#
+    </select>
+
+</sqlMap>

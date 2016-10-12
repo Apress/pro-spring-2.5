@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress ALL -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="emailService" class="com.apress.prospring2.ch13.service.DefaultEmailService" >
+        <property name="emailMessageDao" ref="emailMessageDao" />
+    </bean>
+
+    <bean id="emailMessageProducer" class="com.apress.prospring2.ch13.service.FreemarkerEmailMessageProducer">
+        <property name="freeMarkerConfig" ref="freeMarkerConfig" />
+    </bean>
+
+    <bean id="freeMarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer" >
+        <property name="templateLoaderPath" value="/ch13/src/main/resources/" />
+    </bean>
+
+    <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host">
+            <value>post.demon.co.uk</value>
+        </property>
+    </bean>
+
+    <bean id="mailQueueWorker" class="com.apress.prospring2.ch13.service.EmailQueueWorker">
+        <property name="emailMessageDao" ref="emailMessageDao"/>
+        <property name="javaMailSender" ref="javaMailSender"/>
+    </bean>
+
+</beans>

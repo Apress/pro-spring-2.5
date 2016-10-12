@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://prospring2.apress.com/namespaces/custom"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://prospring2.apress.com/namespaces/custom"
+            elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+
+    <xsd:element name="greeter">
+        <xsd:annotation>
+            <xsd:documentation>...</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="id" type="xsd:ID"/>
+            <xsd:attribute name="count" type="xsd:integer" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>...</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="message" type="xsd:string" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>...</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

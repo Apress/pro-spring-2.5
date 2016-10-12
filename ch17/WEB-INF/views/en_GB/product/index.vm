@@ -1,0 +1,12 @@
+<html>
+<head>
+</head>
+<body>
+
+Velocity All products:<br>
+#foreach($product in $products)
+	${product.name}<br>
+#end
+
+</body>
+</html>

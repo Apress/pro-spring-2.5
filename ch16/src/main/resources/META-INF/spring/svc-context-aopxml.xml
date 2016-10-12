@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <bean id="bankService"
+          class="com.apress.prospring2.ch16.services.DefaultBankService">
+        <property name="accountDao" ref="accountDao"/>
+    </bean>
+
+    <aop:config>
+        <aop:pointcut id="allServiceMethods"
+                      expression="execution(* com.apress.prospring2.ch16.services.*.*(..))"/>
+        <aop:advisor advice-ref="defaultTransactionAdvice"
+                     pointcut-ref="allServiceMethods"/>
+    </aop:config>
+
+    <tx:advice id="defaultTransactionAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method
+                    name="*"
+                    isolation="DEFAULT"
+                    propagation="REQUIRED"
+                    no-rollback-for="java.lang.RuntimeException"
+                    timeout="100"/>
+            <tx:method
+                    name="get*"
+                    read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+</beans>

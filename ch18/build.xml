@@ -1,0 +1,144 @@
+<project name="ch18" basedir="." default="dist">
+
+	<import file="tomcat-targets.xml" />
+
+	<!-- ============================================================== -->
+	<!-- Manipulation targets -->
+	<!-- ============================================================== -->
+
+	<target name="dist-all" depends="dist" />
+
+	<!-- ============================================================== -->
+	<!-- Properties -->
+	<!-- ============================================================== -->
+
+	<property file="${basedir}/build.properties" />
+	<!-- 
+    ****************************************************************************************************
+     Properties located in the build.properties file and to be configurated according to local machine
+    ****************************************************************************************************
+     dir.tomcat.root 
+     dir.tomcat.deploy 
+     tomcat.manager.url 
+     tomcat.manager.username 
+     tomcat.manager.password
+    ****************************************************************************************************
+    -->
+
+	<property name="app.name" value="ch18" />
+	<property name="package.prefix" value="com/apress/prospring2/ch18" />
+
+	<!-- configure the basic directory properties -->
+	<property name="src.main.dir" value="${basedir}/src" />
+	<property name="src.web.dir" value="${basedir}/webapp" />
+	<property name="src.test.dir" value="${basedir}/test" />
+	<property name="src.etc.dir" value="${basedir}/etc" />
+
+	<property name="target.dir" value="${basedir}/target" />
+	<property name="target.testclasses.dir" value="${target.dir}/test-classes" />
+
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="build.dir" value="${basedir}/build" />
+
+	<path id="project.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- ============================================================== -->
+	<!-- Targets -->
+	<!-- ============================================================== -->
+
+	<target name="clean">
+		<delete dir="${target.dir}" />
+		<delete dir="${build.dir}" />
+	</target>
+
+	<!-- Create needed directories -->
+	<target name="init" depends="clean">
+		<mkdir dir="${target.dir}" />
+		<mkdir dir="${build.dir}" />
+	</target>
+
+	<!-- Compile the sources -->
+	<target name="compile" depends="init">
+		<javac srcdir="${src.main.dir}" destdir="${build.dir}" debug="on" debuglevel="lines,vars,source">
+			<classpath refid="project.classpath" />
+			<exclude name="**/*Test.java" />
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile">
+		<war warfile="${target.dir}/${app.name}.war" webxml="${src.web.dir}/WEB-INF/web.xml">
+			<classes dir="${build.dir}">
+				<include name="**/*.class" />
+			</classes>
+			<classes dir="${src.web.dir}/WEB-INF">
+				<include name="**/*-context.xml" />
+				<include name="*.properties" />
+			</classes>
+
+			<lib dir="${lib.dir}">
+				<include name="*.jar" />
+				<exclude name="jsp-api*.jar" />
+				<exclude name="servlet-api*.jar" />
+				<exclude name="junit*.jar" />
+			</lib>
+
+			<fileset dir="${src.web.dir}">
+				<include name="**/*.*" />
+				<exclude name="**/web.xml" />
+				<exclude name="*.properties" />
+			</fileset>
+		</war>
+	</target>
+
+
+	<!-- =========================================================== -->
+	<!-- Tomcat tasks                                                -->
+	<!-- =========================================================== -->
+
+	<property name="dir.tomcat.deploy" value="${tomcat.deploy.dir}" />
+	
+	<target name="clean-tomcat">
+		<delete dir="${tomcat.deploy.dir}/${app.name}" />
+	</target>
+
+	<target name="tomcat-copy-war" description="Copy this application .war to tomcat">
+		<copy file="${target.dir}/${app.name}.war" todir="${tomcat.deploy.dir}" />
+	</target>
+
+	<target name="tomcat-clean-war" description="Clean this application expanded war directory from tomcat">
+		<delete failonerror="false" dir="${tomcat.deploy.dir}/${app.name}.war" />
+	</target>
+
+
+	<target name="tomcat.init">
+		<property name="tomcat.deploy.dir" value="${tomcat.dir}/webapps" />
+		<property name="tomcat.manager.url" value="http://localhost:8080/manager" />
+		<property name="tomcat.username" value="tomcat" />
+		<property name="tomcat.password" value="tomcat" />
+
+		<taskdef resource="org/apache/catalina/ant/catalina.tasks" onerror="ignore">
+			<classpath>
+				<filelist dir="${tomcat.dir}/server/lib">
+					<file name="catalina.jar" />
+					<file name="catalina-ant.jar" />
+				</filelist>
+			</classpath>
+		</taskdef>
+	</target>
+
+	<target name="tomcat-deploy" depends="tomcat.init" description="Install this web application to tomcat">
+		<deploy url="${tomcat.manager.url}" failonerror="false" username="${tomcat.username}" password="${tomcat.password}" path="/${project.webapp.name}" war="${project.war}" />
+	</target>
+
+	<target name="tomcat-undeploy" depends="tomcat.init" description="Remove this application from tomcat">
+		<undeploy url="${tomcat.manager.url}" username="${tomcat.username}" password="${tomcat.password}" path="/${project.webapp.name}" failonerror="false" />
+	</target>
+
+	<target name="tomcat-redeploy" depends="tomcat-undeploy, tomcat-deploy" description="Redeploy the web application" />
+
+
+</project>

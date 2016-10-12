@@ -1,0 +1,14 @@
+foo() {
+    print("foo");
+    x=5;
+
+    bar() {
+        print("bar");
+    }
+
+    return this;
+}
+
+myfoo = foo();    // prints "foo"
+print( myfoo.x ); // prints "5"
+myfoo.bar();      // prints "bar"

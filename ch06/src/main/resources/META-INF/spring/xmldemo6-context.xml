@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="userService" class="com.apress.prospring2.ch06.services.DefaultUserService"/>
+    <bean id="stockService" class="com.apress.prospring2.ch06.services.DefaultStockService"/>
+
+    <bean id="aspectBean" class="com.apress.prospring2.ch06.xml.AspectBean"/>
+
+    <aop:config>
+        <aop:aspect id="aroundAspect" ref="aspectBean">
+            <aop:declare-parents types-matching="com.apress.prospring2.ch06.services.*"
+                                 implement-interface="com.apress.prospring2.ch06.introductions.CallTracker"
+                                 default-impl="com.apress.prospring2.ch06.introductions.DefaultCallTracker"/>
+            <aop:after-returning method="normalCall"
+                                 arg-names="tracker"
+                                 pointcut="execution(* com.apress.prospring2.ch06.services.*.*(..)) and this(tracker)"/>
+            <aop:after-throwing method="failingCall"
+                                arg-names="tracker"
+                                pointcut="execution(* com.apress.prospring2.ch06.services.*.*(..)) and this(tracker)"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

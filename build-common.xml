@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<project basedir=".">
+
+    <target name="init">
+        <delete dir="${dir.module.main.build}"/>
+        <delete dir="${dir.module.test.build}"/>
+
+        <mkdir dir="${dir.module.main.build}"/>
+        <mkdir dir="${dir.module.test.build}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${dir.module.main.build}"/>
+        <delete dir="${dir.module.test.build}"/>
+    </target>
+
+    <target name="compile-main" depends="init">
+        <javac destdir="${dir.module.main.build}" debug="on" debuglevel="lines,vars,source">
+            <classpath refid="module.classpath"/>
+            <src path="${dir.src.main.java}"/>
+        </javac>
+        <copy todir="${dir.module.main.build}">
+            <fileset dir="${dir.src.main.java}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy todir="${dir.module.main.build}">
+            <fileset dir="${dir.src.main.resources}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile-test" depends="init" if="module.test">
+        <javac destdir="${dir.module.test.build}" debug="on" debuglevel="lines,vars,source">
+            <classpath refid="module.classpath"/>
+            <classpath path="${dir.module.main.build}"/>
+            <src path="${dir.src.test.java}"/>
+        </javac>
+        <copy todir="${dir.module.test.build}">
+            <fileset dir="${dir.src.test.java}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy todir="${dir.module.test.build}">
+            <fileset dir="${dir.src.test.resources}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="test" depends="compile-test" if="module.test">
+        <junit showoutput="true" fork="on" forkmode="once" printsummary="on">
+            <classpath refid="module.classpath"/>
+            <classpath path="${dir.module.main.build}"/>
+            <classpath path="${dir.module.test.build}"/>
+            <batchtest fork="yes" todir="${dir.module.test.reports}">
+                <formatter type="xml"/>
+                <fileset dir="${dir.src.test.java}">
+                    <include name="**/*Test*.java"/>
+                    <exclude name="**/Abstract*.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+
+    </target>
+
+    <target name="package" depends="compile-main" if="module.jar">
+        <jar destfile="./target/${module.jar}">
+            <fileset dir="${dir.module.main.build}" includes="**/*"/>
+            <fileset dir="${dir.src.main.resources}" includes="**/*"/>
+        </jar>
+    </target>
+
+    <target name="build-common" depends="compile-main,test,package"/>
+
+</project>

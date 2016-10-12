@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="beans">
+            <map>
+                <entry key="bean:name=springManagedMBean" value-ref="springManagedBean" />
+            </map>
+        </property>       
+        <property name="assembler" ref="assembler" />        
+    </bean>
+
+    <bean id="assembler" class="org.springframework.jmx.export.assembler.InterfaceBasedMBeanInfoAssembler">
+        <property name="managedInterfaces">
+           <list>
+               <value>com.apress.prospring2.ch20.interfacebased.ManagedInterface</value>
+           </list>
+        </property>
+        
+    </bean>
+
+
+    <bean id="springManagedBean" class="com.apress.prospring2.ch20.interfacebased.SimpleSpringBean">
+        <property name="property" value="TEST"/>
+        <property name="anotherProperty" value="ANOTHER TEST" />
+    </bean>
+
+</beans>

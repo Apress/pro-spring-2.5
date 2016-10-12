@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+https://jax-ws.dev.java.net/spring/core
+https://jax-ws.dev.java.net/spring/core.xsd
+https://jax-ws.dev.java.net/spring/servlet
+https://jax-ws.dev.java.net/spring/servlet.xsd">
+    <!--
+    <wss:bindings id="jax-ws.http">
+        <wss:bindings>
+            <wss:binding url="/ws2/jaxwsHelloWorld">
+                <wss:service>
+                    <ws:service bean="#jaxwsHelloWorldService" />
+
+                </wss:service>
+            </wss:binding>
+        </wss:bindings>
+    </wss:bindings>
+        -->
+<wss:binding url="/ws2/jaxwsHelloWorld">
+ <wss:service>
+     <ws:service bean="#jaxwsHelloWorldService"/>
+ </wss:service>
+</wss:binding>
+<!--
+this bean implements web service methods -->
+    <bean id="jaxwsHelloWorldService" class="com.apress.prospring2.ch15.remoting.jaxws.JaxWsHelloWorld"/>
+
+
+</beans>

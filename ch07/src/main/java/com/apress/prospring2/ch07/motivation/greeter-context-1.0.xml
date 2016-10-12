@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <bean id="transactionManager" class="com.apress.prospring2.ch07.motivation.NoopPlatformTransactionManager"/>
+    
+    <bean id="greetingsList" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <value>Hello, World</value>
+                <value>What do you want to do tomorrow?</value>
+                <value>Nazdar, prdi</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="greeterService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="target">
+            <bean class="com.apress.prospring2.ch07.motivation.ComplexGreeterService">
+                <property name="greetings" ref="greetingsList"/>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="greet*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>

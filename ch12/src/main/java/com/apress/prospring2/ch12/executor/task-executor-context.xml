@@ -1,0 +1,25 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+    <bean id="threadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5"/>
+        <property name="maxPoolSize" value="10"/>
+        <property name="queueCapacity" value="25"/>
+    </bean>
+
+    <bean id="simpleAsynchTaskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor">
+        <property name="concurrencyLimit" value="10"/>
+    </bean>
+
+    <bean id="synchTaskExecutor" class="org.springframework.core.task.SyncTaskExecutor"/>
+
+    <bean id="concurrentTaskExecutor" class="org.springframework.scheduling.concurrent.ConcurrentTaskExecutor">
+    </bean>
+
+    <bean id="timerTaskExecutor" class="org.springframework.scheduling.timer.TimerTaskExecutor">
+        <property name="delay" value="3000"/>
+        <property name="timer" ref="timer"/>
+    </bean>
+
+    <bean id="timer" class="java.util.Timer"/>
+</beans>

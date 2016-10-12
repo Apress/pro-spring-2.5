@@ -1,0 +1,48 @@
+* {
+	padding:0px;
+	margin:0px;
+	font-family:sans-serif;}
+body {
+	margin:auto;
+	width:600px}
+h1
+{
+	padding:25px;
+	color:#135E00;}
+form {
+	margin:auto;
+	width:550px;
+	background:#FCFFCC;
+	border:solid #135E00 1px;}
+form p {
+	clear:both;
+	display:table;
+	padding:10px;
+	width:510px;}
+form p.message
+{
+	text-align:right;
+	font-weight:bold;
+	color:#f00;}
+form p.strong {
+	color:#0f0;}
+form p label {
+	font-weight:bold;
+	font-size:16px;
+	float:left;
+	display:table;
+	width:250px;}
+form p input {
+	float:left;
+	border:solid #135E00 1px;
+	width:250px;}
+form p input.button {
+	background:#135E00;
+	color:#fff;
+	border:solid #fff 1px;
+	font-size:18px;
+	padding:5px;
+	margin-right:10px;
+	width:140px;}
+form p input.cancel {
+	background:#f00;}

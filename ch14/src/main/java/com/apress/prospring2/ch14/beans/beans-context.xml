@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+                           http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.0.xsd">
+
+    
+
+    <lang:groovy id="textSource">
+        <lang:inline-script>
+            class Messenger implements com.apress.prospring2.ch14.beans.TextSource {
+                public String getMessage() { return "Hello "}
+            }
+        </lang:inline-script>
+    </lang:groovy>
+
+    <lang:bsh id="bshTextSource" script-interfaces="com.apress.prospring2.ch14.beans.TextSource">
+        <lang:inline-script>
+            String getMessage() {
+                return "Hello";
+            }
+        </lang:inline-script>
+    </lang:bsh>
+
+    <lang:jruby id="jrubyTextSource" script-interfaces="com.apress.prospring2.ch14.beans.TextSource">
+        <lang:inline-script>
+        <![CDATA[
+            require 'java'
+
+            class Messenger
+
+              def getMessage
+                "Hello"
+              end
+
+            end
+        ]]>
+        </lang:inline-script>
+    </lang:jruby>
+
+    <bean id="javaTextSource" class="com.apress.prospring2.ch14.beans.JavaTextSource"/>
+
+</beans>

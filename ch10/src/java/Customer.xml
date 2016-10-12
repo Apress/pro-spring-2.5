@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <typeAlias type="com.apress.prospring2.ch10.domain.Customer" alias="customer"/>
+
+    <typeAlias type="com.apress.prospring2.ch10.domain.CustomerDetail"
+               alias="customerDetail"/>
+
+    <resultMap class="customer" id="result">
+        <result property="id" column="Id"/>
+        <result property="firstName" column="First_Name"/>
+        <result property="lastName" column="Last_Name"/>
+        <result property="lastLogin" column="Last_Login"/>
+    </resultMap>
+
+    <resultMap class="customerDetail" id="gossipResult">
+        <result property="id" column="Id"/>
+        <result property="data" column="Data"/>
+    </resultMap>
+
+    <resultMap class="customer" id="resultDetail" extends="result">
+        <result property="customerDetail.id"
+                column="Customer_Detail_Id"/>
+        <result property="customerDetail.data" column="Customer_Detail_Data"/>
+        <result property="customerGossip" select="getCustomerGossipById"
+                column="Customer_Gossip"/>
+    </resultMap>
+
+    <select id="getCustomerById" resultMap="resultDetail" parameterClass="long">
+        select
+        c.Id as Id,
+        c.First_Name as First_Name,
+        c.Last_Name as Last_Name,
+        c.Customer_Detail as Customer_Detail,
+        c.Customer_Gossip as Customer_Gossip,
+        c.Last_Login as Last_Login,
+        cd.Id as Customer_Detail_Id,
+        cd.Data as Customer_Detail_Data
+        from
+        T_Customer c inner join T_Customer_Detail cd on
+        c.Customer_Detail = cd.Id
+        where
+        c.Id=#value#
+    </select>
+
+    <select id="getCustomerGossipById" resultMap="gossipResult"
+            parameterClass="int">
+        select * from T_Customer_Detail where Id=#value#
+    </select>
+
+    <select id="getAllCustomers" resultMap="result">
+        select * from T_Customer
+    </select>
+    <!--
+        <select id="getCustomerById" resultMap="result" parameterClass="long">
+            select * from Customer where Id=#value#
+        </select>
+    -->
+    <select id="getCustomersByLastNameAndLastLoginMap"
+            resultMap="result" parameterClass="map">
+        select * from T_Customer where Last_Name like #lastName# and Last_Login=#lastLogin#
+    </select>
+    <select id="getCustomersByLastNameAndLastLoginDO"
+            resultMap="result" parameterClass="customer">
+        select * from T_Customer where Last_Name like #lastName# and Last_Login=#lastLogin#
+    </select>
+
+    <update id="updateCustomer" parameterClass="customer">
+        update T_Customer set First_Name=#firstName#, Last_Name=#lastName#, Last_Login=#lastLogin# where Id=#id#
+    </update>
+
+    <update id="updateCustomerLastNameDO" parameterClass="customer">
+        update T_Customer set Last_Name=#lastName# where Id=#id#
+    </update>
+
+    <update id="updateCustomerLastNameMap" parameterClass="map">
+        update T_Customer set Last_Name=#lastName# where Id=#id#
+    </update>
+
+    <delete id="deleteCustomer" parameterClass="long">
+        delete from T_Customer where Id=#value#
+    </delete>
+
+    <insert id="insertCustomer" parameterClass="customer">
+        <selectKey keyProperty="id" resultClass="long">
+            select s_customer_id.nextval from dual
+        </selectKey>
+        insert into T_Customer (Id, First_Name, Last_Name, Last_Login, Customer_Detail) values (#id#, #firstName#,
+        #lastName#, #lastLogin#, #customerDetail.id#)
+    </insert>
+
+</sqlMap>
